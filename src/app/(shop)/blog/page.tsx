@@ -21,7 +21,7 @@ export default async function BlogPage() {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((g) => (
               <Link key={g.id} href={`/blog/${g.slug}`} className="flex flex-col overflow-hidden rounded-md border border-line bg-white">
-                <ImageBox src={g.coverUrl} alt="" className="aspect-video w-full" />
+                <ImageBox src={g.coverUrl} alt="" className="aspect-video w-full" sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw" />
                 <span className="flex flex-col gap-2 p-5">
                   {g.tag && <span className="text-xs font-bold tracking-wider text-brand-dark uppercase">{g.tag}</span>}
                   <span className="text-xl leading-snug font-bold">{g.title}</span>

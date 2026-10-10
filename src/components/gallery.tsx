@@ -7,7 +7,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
   const [active, setActive] = useState(0);
   return (
     <div className="flex flex-col gap-3">
-      <ImageBox src={images[active]} alt={alt} className="aspect-square w-full rounded-md border border-line bg-white" />
+      <ImageBox src={images[active]} alt={alt} className="aspect-square w-full rounded-md border border-line bg-white" sizes="(min-width: 768px) 50vw, 100vw" priority={active === 0} />
       {images.length > 1 && (
         <div className="flex flex-wrap gap-2">
           {images.map((src, i) => (
@@ -19,7 +19,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
               onClick={() => setActive(i)}
               className={`size-18 overflow-hidden rounded border-2 ${i === active ? "border-brand" : "border-line"}`}
             >
-              <ImageBox src={src} alt="" className="size-full" />
+              <ImageBox src={src} alt="" className="size-full" sizes="80px" />
             </button>
           ))}
         </div>

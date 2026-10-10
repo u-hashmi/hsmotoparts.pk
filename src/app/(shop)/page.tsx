@@ -57,7 +57,7 @@ export default async function HomePage() {
           </div>
           <div className="relative flex aspect-[4/3] flex-[1_1_420px] items-center justify-center overflow-hidden border border-ink-line bg-ink-3">
             <div className="absolute top-0 -right-10 bottom-0 w-[120px] -skew-x-12 bg-brand" />
-            {settings.heroImage && <ImageBox src={settings.heroImage} alt="" className="relative h-full w-full" />}
+            {settings.heroImage && <ImageBox src={settings.heroImage} alt="" className="relative h-full w-full" sizes="(min-width: 1024px) 50vw, 100vw" priority />}
           </div>
         </div>
       </section>
@@ -87,7 +87,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-5">
             {bikes.map((b) => (
               <Link key={b.id} href={`/category/${b.slug}`} className="group flex flex-col overflow-hidden rounded-md bg-ink text-white">
-                <ImageBox src={b.imageUrl} alt="" dark className="aspect-[4/3] w-full" />
+                <ImageBox src={b.imageUrl} alt="" dark className="aspect-[4/3] w-full" sizes="(min-width: 1024px) 250px, (min-width: 768px) 33vw, 50vw" />
                 <span className="flex items-center justify-between border-t-4 border-brand px-4 py-3.5">
                   <span className="font-display text-xl font-bold uppercase sm:text-2xl">{b.name}</span>
                   <ArrowIcon className="size-5 transition-transform group-hover:translate-x-1" />
@@ -118,7 +118,7 @@ export default async function HomePage() {
                 href={`/category/${t.slug}`}
                 className="relative flex min-h-48 flex-col justify-end gap-1.5 overflow-hidden rounded-md bg-ink p-7 text-white"
               >
-                <ImageBox src={t.imageUrl} alt="" dark className="absolute top-0 right-0 h-full w-[45%]" />
+                <ImageBox src={t.imageUrl} alt="" dark className="absolute top-0 right-0 h-full w-[45%]" sizes="(min-width: 640px) 300px, 45vw" />
                 <span className="relative font-display text-4xl leading-none font-extrabold uppercase">{t.name}</span>
                 {t.description && <span className="relative max-w-[55%] text-soft">{t.description}</span>}
                 <span className="relative mt-2 h-1 w-12 bg-brand" />
@@ -160,7 +160,7 @@ export default async function HomePage() {
           <div className="grid gap-5 md:grid-cols-3">
             {posts.map((g) => (
               <Link key={g.id} href={`/blog/${g.slug}`} className="flex flex-col overflow-hidden rounded-md border border-line bg-white">
-                <ImageBox src={g.coverUrl} alt="" className="aspect-video w-full" />
+                <ImageBox src={g.coverUrl} alt="" className="aspect-video w-full" sizes="(min-width: 768px) 400px, 100vw" />
                 <span className="flex flex-col gap-2 p-5">
                   {g.tag && <span className="text-xs font-bold tracking-wider text-brand-dark uppercase">{g.tag}</span>}
                   <span className="text-xl leading-snug font-bold">{g.title}</span>

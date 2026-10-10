@@ -1,7 +1,9 @@
 import "server-only";
 import { randomBytes } from "node:crypto";
-import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
+import sharp from "sharp";
+import { VARIANT_WIDTHS } from "./image-urls";
 
 export type UploadFolder = "images" | "proofs";
 
@@ -49,9 +51,52 @@ export async function readUpload(folder: UploadFolder, name: string) {
 export async function deleteUpload(folder: UploadFolder, name: string) {
   if (!/^[a-f0-9]{24}\.(jpg|png|webp)$/.test(name)) return;
   await unlink(path.join(/*turbopackIgnore: true*/ root(), folder, name)).catch(() => {});
+  if (folder === "images") {
+    const id = name.split(".")[0];
+    for (const w of VARIANT_WIDTHS) {
+      await unlink(path.join(/*turbopackIgnore: true*/ root(), "images", "variants", `${id}-${w}.webp`)).catch(() => {});
+    }
+  }
 }
 
 /** Public URL for a product/blog image stored by name. */
 export function imageUrl(name: string) {
   return `/uploads/${name}`;
+}
+
+const generating = new Map<string, Promise<Buffer | null>>();
+
+/**
+ * Returns a resized WebP copy of an uploaded product/blog image, creating and caching it
+ * on first request. `name` looks like `<id>-640.webp`.
+ */
+export async function readVariant(name: string) {
+  const m = /^([a-f0-9]{24})-(\d+)\.webp$/.exec(name);
+  if (!m || !(VARIANT_WIDTHS as readonly number[]).includes(Number(m[2]))) return null;
+  const [, id, width] = m;
+  const dir = path.join(/*turbopackIgnore: true*/ root(), "images", "variants");
+  const file = path.join(/*turbopackIgnore: true*/ dir, name);
+  try {
+    return await readFile(file);
+  } catch {}
+
+  let job = generating.get(name);
+  if (!job) {
+    job = (async () => {
+      let original: Buffer | null = null;
+      for (const ext of ["jpg", "png", "webp"]) {
+        original = (await readUpload("images", `${id}.${ext}`))?.data ?? null;
+        if (original) break;
+      }
+      if (!original) return null;
+      const out = await sharp(original).rotate().resize({ width: Number(width), withoutEnlargement: true }).webp({ quality: 72 }).toBuffer();
+      await mkdir(dir, { recursive: true });
+      const tmp = `${file}.${randomBytes(4).toString("hex")}.tmp`;
+      await writeFile(tmp, out);
+      await rename(tmp, file);
+      return out;
+    })().finally(() => generating.delete(name));
+    generating.set(name, job);
+  }
+  return job;
 }

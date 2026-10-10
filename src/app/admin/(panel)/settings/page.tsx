@@ -59,7 +59,7 @@ export default async function SettingsPage() {
           </Card>
           <Card title="Home page banner photo">
             <div className="flex flex-wrap items-end gap-6">
-              {s.heroImage && <ImageBox src={s.heroImage} alt="" className="h-24 w-32 rounded" />}
+              {s.heroImage && <ImageBox src={s.heroImage} alt="" className="h-24 w-32 rounded" sizes="160px" />}
               <Field label="Upload photo" hint="Landscape, roughly 4:3"><input name="heroImage" type="file" accept="image/jpeg,image/png,image/webp" /></Field>
               {s.heroImage && <Checkbox name="removeHero" label="Remove photo" />}
             </div>

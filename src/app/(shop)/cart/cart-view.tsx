@@ -26,7 +26,7 @@ export function CartView({ deliveryFee, freeDeliveryOver }: { deliveryFee: numbe
             {items.map((item) => (
               <li key={item.id} className="flex gap-4 p-4">
                 <Link href={`/product/${item.slug}`} className="flex-none">
-                  <ImageBox src={item.image} alt="" className="size-20 rounded" />
+                  <ImageBox src={item.image} alt="" className="size-20 rounded" sizes="80px" />
                 </Link>
                 <div className="flex min-w-0 flex-1 flex-col gap-2">
                   <Link href={`/product/${item.slug}`} className="font-semibold hover:text-brand-dark">{item.name}</Link>

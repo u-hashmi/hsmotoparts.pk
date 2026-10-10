@@ -19,7 +19,7 @@ export function ProductCard({ product, headingLevel = 3 }: { product: CardProduc
   return (
     <article className="flex flex-col overflow-hidden rounded-md border border-line bg-white">
       <Link href={`/product/${product.slug}`} className="block" tabIndex={-1} aria-hidden="true">
-        <ImageBox src={product.images[0]} alt="" className="aspect-square w-full" />
+        <ImageBox src={product.images[0]} alt="" className="aspect-square w-full" sizes="(min-width: 1024px) 300px, 50vw" />
       </Link>
       <div className="flex flex-1 flex-col gap-1.5 p-3 sm:p-4">
         {product.label && (

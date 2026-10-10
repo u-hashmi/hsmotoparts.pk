@@ -37,7 +37,7 @@ export default async function ProductsPage({ searchParams }: PageProps<"/admin/p
               <tr key={p.id} className="hover:bg-paper">
                 <td className="p-3">
                   <Link href={`/admin/products/${p.id}`} className="flex items-center gap-3">
-                    <ImageBox src={p.images[0]} alt="" className="size-12 flex-none rounded" />
+                    <ImageBox src={p.images[0]} alt="" className="size-12 flex-none rounded" sizes="80px" />
                     <span><span className="font-semibold underline">{p.name}</span>{p.sku && <span className="block text-muted">{p.sku}</span>}</span>
                   </Link>
                 </td>

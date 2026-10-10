@@ -36,7 +36,7 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
           {post.publishedAt.toLocaleDateString("en-PK", { day: "numeric", month: "long", year: "numeric" })}
         </time>
       )}
-      {post.coverUrl && <ImageBox src={post.coverUrl} alt="" className="aspect-video w-full rounded-md" />}
+      {post.coverUrl && <ImageBox src={post.coverUrl} alt="" className="aspect-video w-full rounded-md" sizes="(min-width: 768px) 768px, 100vw" priority />}
       <RichText text={post.body} />
     </article>
   );

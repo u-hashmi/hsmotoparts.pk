@@ -1,18 +1,38 @@
+import { responsive } from "@/lib/image-urls";
+
 /** Product/blog image with a neutral placeholder when none has been uploaded. */
 export function ImageBox({
   src,
   alt,
   className = "",
   dark = false,
+  sizes = "100vw",
+  priority = false,
 }: {
   src?: string | null;
   alt: string;
   className?: string;
   dark?: boolean;
+  /** Rendered width hint for picking a responsive size, as in <img sizes>. */
+  sizes?: string;
+  /** Above-the-fold image: load immediately with high priority. */
+  priority?: boolean;
 }) {
   if (src) {
-    // eslint-disable-next-line @next/next/no-img-element -- images are served from our own upload route
-    return <img src={src} alt={alt} loading="lazy" className={`object-cover ${className}`} />;
+    const r = responsive(src);
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- images are served (and resized) by our own upload route
+      <img
+        src={r?.src ?? src}
+        srcSet={r?.srcSet}
+        sizes={r ? sizes : undefined}
+        alt={alt}
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : undefined}
+        decoding="async"
+        className={`object-cover ${className}`}
+      />
+    );
   }
   return (
     <div

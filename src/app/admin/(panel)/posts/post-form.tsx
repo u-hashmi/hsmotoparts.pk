@@ -21,7 +21,7 @@ export function PostForm({ post }: { post?: Post }) {
           <textarea name="body" rows={18} defaultValue={post?.body} className={textareaClass} />
         </Field>
         <div className="flex flex-wrap items-end gap-6">
-          {post?.coverUrl && <ImageBox src={post.coverUrl} alt="" className="h-20 w-32 rounded" />}
+          {post?.coverUrl && <ImageBox src={post.coverUrl} alt="" className="h-20 w-32 rounded" sizes="160px" />}
           <Field label="Cover image"><input name="cover" type="file" accept="image/jpeg,image/png,image/webp" /></Field>
           {post?.coverUrl && <Checkbox name="removeCover" label="Remove cover" />}
         </div>

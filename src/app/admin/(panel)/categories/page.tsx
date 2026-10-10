@@ -20,7 +20,7 @@ export default async function CategoriesPage() {
         {categories.map((c) => (
           <details key={c.id} className="rounded-md border border-line bg-white">
             <summary className="flex cursor-pointer flex-wrap items-center gap-3 p-4">
-              <ImageBox src={c.imageUrl} alt="" className="size-10 rounded" />
+              <ImageBox src={c.imageUrl} alt="" className="size-10 rounded" sizes="80px" />
               <span className="font-bold">{c.name}</span>
               <span className="text-sm text-muted">/category/{c.slug} · {c._count.products} products{c.isBike ? " · Bike model" : ""}</span>
             </summary>

@@ -167,7 +167,7 @@ export function CheckoutForm({ settings }: Props) {
           <h2 className="text-xl font-bold">Order summary</h2>
           {items.map((i) => (
             <div key={i.id} className="flex items-center gap-3">
-              <ImageBox src={i.image} alt="" className="size-16 flex-none rounded" />
+              <ImageBox src={i.image} alt="" className="size-16 flex-none rounded" sizes="80px" />
               <div className="min-w-0 flex-1">
                 <div className="font-semibold">{i.name}</div>
                 <div className="text-sm text-muted">Qty {i.qty}</div>

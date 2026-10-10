@@ -34,7 +34,7 @@ export default async function PhotoCreditsPage() {
           <ul className="grid gap-4 sm:grid-cols-2">
             {shown.map((c) => (
               <li key={c.url} className="flex gap-4 rounded-md border border-line bg-white p-4">
-                <ImageBox src={c.url} alt="" className="size-20 flex-none rounded" />
+                <ImageBox src={c.url} alt="" className="size-20 flex-none rounded" sizes="80px" />
                 <div className="flex min-w-0 flex-col gap-1 text-sm">
                   <a href={c.source} target="_blank" rel="noopener" className="font-semibold break-words underline">{c.title}</a>
                   <span className="text-muted">by {c.author}</span>

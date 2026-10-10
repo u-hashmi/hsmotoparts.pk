@@ -41,7 +41,7 @@ export function ProductForm({ product, categories }: { product?: Product & { cat
               <div className="flex flex-wrap gap-3">
                 {product.images.map((src) => (
                   <label key={src} className="flex flex-col items-center gap-1.5 text-sm">
-                    <ImageBox src={src} alt="" className="size-24 rounded border border-line" />
+                    <ImageBox src={src} alt="" className="size-24 rounded border border-line" sizes="160px" />
                     <span className="flex items-center gap-1.5"><input type="checkbox" name="keepImages" value={src} defaultChecked className="accent-brand" /> Keep</span>
                   </label>
                 ))}

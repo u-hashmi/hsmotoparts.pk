@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0e0e0f;
+  --color-ink-2: #161618;
+  --color-ink-3: #1c1c1f;
+  --color-ink-line: #2c2c30;
+  --color-brand: #d7141a;
+  --color-brand-dark: #b31016;
+  --color-brand-light: #ff4a4f;
+  --color-paper: #f4f3f1;
+  --color-line: #e4e2de;
+  --color-muted: #5a5a5e;
+  --color-soft: #c9c9cc;
+  --color-placeholder: #ecebe8;
+  --font-sans: var(--font-barlow), system-ui, sans-serif;
+  --font-display: var(--font-barlow-condensed), var(--font-barlow), sans-serif;
+}
+
+@layer base {
+  body {
+    background: var(--color-paper);
+    color: #141414;
+  }
+}
+
+/* Long-form text in blog posts and policy pages. */
+.prose-shop p {
+  margin: 0 0 1em;
+  line-height: 1.7;
+  font-size: 1.0625rem;
+}
+.prose-shop h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.75rem;
+  text-transform: uppercase;
+  margin: 1.5em 0 0.5em;
+}
+.prose-shop ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: 0 0 1em;
+  line-height: 1.7;
+}

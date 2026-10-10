@@ -1,0 +1,83 @@
+# HSmotoparts.pk — Postgres + migrator + Next app (+ optional Cloudflare Tunnel).
+#
+# Secrets live in .env on the server (see .env.example).
+# The tunnel token lives in .cloudflared.env; start the tunnel with:
+#   docker compose --profile tunnel up -d
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: hsmoto-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - hsmoto_db:/var/lib/postgresql/data
+    networks: [hsmotonet]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # One-shot: applies pending migrations and seeds categories, then exits.
+  migrate:
+    build:
+      context: .
+      target: migrator
+    image: hsmotoparts-migrator
+    env_file: .env
+    networks: [hsmotonet]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  hsmotoparts:
+    build: .
+    image: hsmotoparts
+    container_name: hsmotoparts
+    restart: unless-stopped
+    env_file: .env
+    networks: [edge, hsmotonet]
+    expose:
+      - "3000"
+    volumes:
+      - hsmoto_uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "require('http').get('http://127.0.0.1:3000/robots.txt',r=>process.exit(r.statusCode<500?0:1)).on('error',()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Public front door via Cloudflare Tunnel (outbound-only; no ports opened).
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: hsmoto-cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    env_file: .cloudflared.env
+    networks: [edge]
+    depends_on:
+      - hsmotoparts
+    profiles: [tunnel]
+
+networks:
+  edge:
+    external: true
+  hsmotonet:
+    driver: bridge
+
+volumes:
+  hsmoto_db:
+  hsmoto_uploads:

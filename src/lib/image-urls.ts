@@ -1,5 +1,5 @@
 /** Widths of the WebP copies generated on demand for every uploaded image. */
-export const VARIANT_WIDTHS = [320, 640, 960] as const;
+export const VARIANT_WIDTHS = [320, 480, 640, 960] as const;
 
 const UPLOAD = /^\/uploads\/([a-f0-9]{24})\.(jpg|png|webp)$/;
 

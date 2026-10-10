@@ -28,6 +28,7 @@ export function Footer({ categories, settings }: { categories: Category[]; setti
           <Link href="/payment-methods" className="hover:text-white">Payment methods</Link>
           <Link href="/contact" className="hover:text-white">Contact us</Link>
           <Link href="/blog" className="hover:text-white">Blog</Link>
+          <Link href="/photo-credits" className="hover:text-white">Photo credits</Link>
         </div>
         <div className="flex flex-col gap-2.5">
           <h2 className="font-bold text-white">Contact</h2>
